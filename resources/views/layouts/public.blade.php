@@ -20,12 +20,11 @@
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 {{-- لوقو سيارات ابو خالد --}}
-                <div class="flex-shrink-0">
-                    <a href="/" class="text-2xl font-bold text-primary">
-                        سيارات ابو خالد
-                    </a>
-                </div>
-
+<div class="flex-shrink-0">
+    <a href="{{ route('cars.front.index') }}" class="text-2xl font-bold text-primary">
+        سيارات ابو خالد
+    </a>
+</div>
                 {{-- الروابط في الناف بار --}}
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">

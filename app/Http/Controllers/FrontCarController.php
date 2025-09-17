@@ -39,12 +39,27 @@ class FrontCarController extends Controller
         }
 
         // Filter by category (by category_id)
-        if ($categoryId = $request->get('category_id')) {
-            $query->whereHas('categoryValues', function ($q) use ($categoryId) {
-                // category_id exists on category_values table and also in the pivot, but this is enough
-                $q->where('category_values.category_id', $categoryId);
-            });
+ if ($categoryId = $request->get('category_id')) {
+    // ابحث عن التصنيف المختار مع كل أبنائه (بشكل متداخل)
+    $category = Category::with('allChildren')->find($categoryId);
+
+    if ($category) {
+        // دالة لجمع كل معرفات الأبناء في مصفوفة واحدة
+        function collectIds($category) {
+            $ids = [$category->id];
+            foreach ($category->allChildren as $child) {
+                $ids = array_merge($ids, collectIds($child));
+            }
+            return $ids;
         }
+
+        $categoryIds = collectIds($category);
+
+        $query->whereHas('categoryValues', function ($q) use ($categoryIds) {
+            $q->whereIn('category_values.category_id', $categoryIds);
+        });
+    }
+}
 
         // Filter by a specific category value (value_id)
         if ($valueId = $request->get('value_id')) {

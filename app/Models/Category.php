@@ -20,4 +20,20 @@ class Category extends Model
     {
         return $this->hasMany(CategoryValue::class);
     }
+    // In App\Models\Category.php
+    /**
+     * Get the child categories.
+     */
+    public function children()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
+
+    /**
+     * Get all child categories recursively.
+     */
+    public function allChildren()
+    {
+        return $this->children()->with('allChildren');
+    }
 }
