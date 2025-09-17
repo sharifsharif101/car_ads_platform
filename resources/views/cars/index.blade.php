@@ -46,15 +46,18 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($cars as $car)
             <a href="{{ route('cars.front.show', $car) }}" class="block bg-white rounded-lg shadow overflow-hidden flex flex-col hover:shadow-xl transition-shadow duration-300">
-                <div class="h-44 bg-gray-100">
+                {{-- تم تعديل هذا الجزء ليكون متجاوبًا مع الحفاظ على نسبة العرض إلى الارتفاع --}}
+                <div class="relative w-full aspect-square bg-gray-100 overflow-hidden">
                     @if($car->main_image)
-                        <img src="{{ Storage::url($car->main_image) }}" alt="{{ $car->title }}" class="w-full h-44 object-cover"/>
+                        <img src="{{ Storage::url($car->main_image) }}" alt="{{ $car->title }}" class="w-full h-full object-cover"/>
                     @elseif($car->images->first())
-                        <img src="{{ Storage::url($car->images->first()->image_path) }}" alt="{{ $car->title }}" class="w-full h-44 object-cover"/>
+                        <img src="{{ Storage::url($car->images->first()->image_path) }}" alt="{{ $car->title }}" class="w-full h-full object-cover"/>
                     @else
-                        <div class="w-full h-44 flex items-center justify-center text-gray-400">لا توجد صورة</div>
+                        <div class="w-full h-full flex items-center justify-center text-gray-400">لا توجد صورة</div>
                     @endif
                 </div>
+                {{-- نهاية الجزء المعدل --}}
+
                 <div class="p-4 flex-1 flex flex-col">
                     <h3 class="text-lg font-semibold text-primary mb-1">{{ $car->title }}</h3>
                     <p class="text-sm text-gray-600 line-clamp-3 mb-3">{{ Str::limit($car->description, 120) }}</p>
