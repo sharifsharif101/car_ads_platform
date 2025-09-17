@@ -26,10 +26,19 @@
                     </a>
                 </div>
 
-                {{-- يمكنك إضافة روابط أخرى هنا إذا أردت مستقبلاً --}}
+                {{-- الروابط في الناف بار --}}
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
+                        {{-- يمكنك إضافة روابط أخرى هنا إذا أردت مستقبلاً --}}
                         {{-- <a href="#" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">الرئيسية</a> --}}
+                        
+                        {{-- === بداية الإضافة === --}}
+                        {{-- هذا هو الزر الجديد الذي ينقل إلى لوحة التحكم --}}
+                        <a href="{{ route('admin.dashboard') }}" 
+                           class="bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-md text-sm font-medium transition duration-300">
+                           لوحة التحكم
+                        </a>
+                        {{-- === نهاية الإضافة === --}}
                     </div>
                 </div>
             </div>
