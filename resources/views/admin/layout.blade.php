@@ -14,6 +14,8 @@
     
     {{-- Alpine.js for interactivity --}}
     <script src="//unpkg.com/alpinejs" defer></script>
+    
+ 
 </head>
 <body class="bg-gray-100 text-gray-800">
 
@@ -95,6 +97,6 @@
     {{-- External JS --}}
     <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
     @stack('scripts')
-
+  
 </body>
 </html>

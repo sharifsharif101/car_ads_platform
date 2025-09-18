@@ -15,7 +15,7 @@ class FrontCarController extends Controller
             ->with(['tags', 'categoryValues.category', 'images'])
             ->where('status', 'active');
 
-        // Text search (title or description)
+        // Text search (title or description) - يعمل بشكل صحيح
         if ($search = trim((string) $request->get('q'))) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
@@ -23,7 +23,7 @@ class FrontCarController extends Controller
             });
         }
 
-        // Price range
+        // Price range - يعمل بشكل صحيح
         if ($min = $request->get('min_price')) {
             $query->where('price', '>=', (float)$min);
         }
@@ -31,42 +31,32 @@ class FrontCarController extends Controller
             $query->where('price', '<=', (float)$max);
         }
 
-        // Filter by a tag name
+        // Filter by a tag name - يعمل بشكل صحيح
         if ($tag = trim((string) $request->get('tag'))) {
             $query->whereHas('tags', function ($q) use ($tag) {
                 $q->where('name', $tag);
             });
         }
 
-        // Filter by category (by category_id)
- if ($categoryId = $request->get('category_id')) {
-    // ابحث عن التصنيف المختار مع كل أبنائه (بشكل متداخل)
-    $category = Category::with('allChildren')->find($categoryId);
-
-    if ($category) {
-        // دالة لجمع كل معرفات الأبناء في مصفوفة واحدة
-        function collectIds($category) {
-            $ids = [$category->id];
-            foreach ($category->allChildren as $child) {
-                $ids = array_merge($ids, collectIds($child));
+        // ======================= الجزء الذي تم تعديله ======================= //
+        // Filter by multiple category values from the form
+        if ($categoryValues = $request->get('category_values')) {
+            // نتأكد أنها مصفوفة
+            if (is_array($categoryValues)) {
+                foreach ($categoryValues as $categoryId => $valueId) {
+                    // نتجاهل القيم الفارغة (عندما يختار المستخدم "الكل")
+                    if ($valueId) {
+                        // نضيف شرط لكل قيمة مختارة
+                        // هذا يضمن أن السيارة يجب أن تحتوي على كل المواصفات المختارة
+                        $query->whereHas('categoryValues', function ($q) use ($valueId) {
+                            $q->where('category_values.id', $valueId);
+                        });
+                    }
+                }
             }
-            return $ids;
         }
+        // ======================= نهاية الجزء المعدّل ======================= //
 
-        $categoryIds = collectIds($category);
-
-        $query->whereHas('categoryValues', function ($q) use ($categoryIds) {
-            $q->whereIn('category_values.category_id', $categoryIds);
-        });
-    }
-}
-
-        // Filter by a specific category value (value_id)
-        if ($valueId = $request->get('value_id')) {
-            $query->whereHas('categoryValues', function ($q) use ($valueId) {
-                $q->where('category_values.id', $valueId);
-            });
-        }
 
         $cars = $query->latest()->paginate(12)->withQueryString();
 
@@ -74,18 +64,11 @@ class FrontCarController extends Controller
         $categories = Category::with('values')->get();
         $tags = Tag::orderBy('name')->get();
 
+        // لا حاجة لإرجاع قيم الفلاتر القديمة category_id و value_id
         return view('cars.index', [
             'cars' => $cars,
             'categories' => $categories,
             'tags' => $tags,
-            'filters' => [
-                'q' => $request->get('q'),
-                'min_price' => $request->get('min_price'),
-                'max_price' => $request->get('max_price'),
-                'tag' => $request->get('tag'),
-                'category_id' => $request->get('category_id'),
-                'value_id' => $request->get('value_id'),
-            ],
         ]);
     }
 
