@@ -1,21 +1,20 @@
 @extends('admin.layout')
 @section('title', 'تعديل الإعلان: ' . $car->title)
 @section('content')
-<div class="container mx-auto">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-primary">تعديل الإعلان: <span class="font-normal">{{ $car->title }}</span></h1>
-        <a href="{{ route('admin.cars.index') }}" class="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300">
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800" style="font-family: 'Google Sans', Roboto, sans-serif;">تعديل الإعلان: <span class="font-normal text-[#4285F4]">{{ $car->title }}</span></h1>
+        <a href="{{ route('admin.cars.index') }}" class="bg-white text-gray-700 px-5 py-2.5 rounded-full shadow-md hover:shadow-lg transition-all duration-200 flex items-center border border-gray-200">
             <i class="fa fa-arrow-left ml-2"></i>
             العودة إلى القائمة
         </a>
     </div>
-code
-Code
+
 {{-- عرض أخطاء التحقق من المدخلات --}}
 @if ($errors->any())
-    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
-        <p class="font-bold">حدث خطأ!</p>
-        <ul class="mt-2 list-disc list-inside">
+    <div class="bg-red-50 border-l-4 border-[#EA4335] text-[#EA4335] p-5 mb-6 rounded-xl shadow-sm" role="alert">
+        <p class="font-bold text-lg">حدث خطأ!</p>
+        <ul class="mt-3 list-disc list-inside space-y-1">
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach
@@ -23,7 +22,7 @@ Code
     </div>
 @endif
 
-<form action="{{ route('admin.cars.update', $car) }}" method="POST" enctype="multipart/form-data" class="bg-white p-8 rounded-lg shadow-lg space-y-8">
+<form action="{{ route('admin.cars.update', $car) }}" method="POST" enctype="multipart/form-data" class="bg-white p-8 rounded-2xl shadow-md space-y-8">
     @csrf
     @method('PUT')
 
@@ -31,121 +30,120 @@ Code
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         {{-- عنوان الإعلان --}}
         <div>
-            <label for="title" class="block text-sm font-medium text-gray-700 mb-2">عنوان الإعلان <span class="text-red-500">*</span></label>
-            <input type="text" id="title" name="title" value="{{ old('title', $car->title) }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent/50" required>
+            <label for="title" class="block text-sm font-medium text-gray-700 mb-2" style="font-family: 'Google Sans', Roboto, sans-serif;">عنوان الإعلان <span class="text-[#EA4335]">*</span></label>
+            <input type="text" id="title" name="title" value="{{ old('title', $car->title) }}" class="w-full border border-[#DADCE0] rounded-xl shadow-sm focus:border-[#4285F4] focus:ring-2 focus:ring-[#4285F4]/20 py-3 px-4 transition-all duration-200" required>
         </div>
 
         {{-- السعر --}}
         <div>
-            <label for="price" class="block text-sm font-medium text-gray-700 mb-2">السعر (ريال) <span class="text-red-500">*</span></label>
-            <input type="number" id="price" name="price" value="{{ old('price', $car->price) }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent/50" required>
+            <label for="price" class="block text-sm font-medium text-gray-700 mb-2" style="font-family: 'Google Sans', Roboto, sans-serif;">السعر (ريال) <span class="text-[#EA4335]">*</span></label>
+            <input type="number" id="price" name="price" value="{{ old('price', $car->price) }}" class="w-full border border-[#DADCE0] rounded-xl shadow-sm focus:border-[#4285F4] focus:ring-2 focus:ring-[#4285F4]/20 py-3 px-4 transition-all duration-200" required>
         </div>
 
         {{-- الحالة --}}
         <div>
-            <label for="status" class="block text-sm font-medium text-gray-700 mb-2">الحالة <span class="text-red-500">*</span></label>
-            <select id="status" name="status" class="w-full border-gray-300 rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent/50">
-                <option value="active" @selected(old('status', $car->status) == 'active')>نشط</option>
-                <option value="inactive" @selected(old('status', $car->status) == 'inactive')>غير نشط</option>
-                <option value="pending" @selected(old('status', $car->status) == 'pending')>قيد المراجعة</option>
-                <option value="expired" @selected(old('status', $car->status) == 'expired')>منتهي</option>
-            </select>
-        </div>
-        
-        {{-- الوسوم (Tags) --}}
-        <div>
-            <label for="tags" class="block text-sm font-medium text-gray-700 mb-2">الوسوم (Tags)</label>
-            <select id="tags" name="tags[]" multiple>
-                {{-- يتم ملء الوسوم المحفوظة مسبقًا عبر السكربت في الأسفل --}}
-                @foreach($tags as $tag)
-                    <option value="{{ $tag->name }}">{{ $tag->name }}</option>
-                @endforeach
-            </select>
+            <label for="status" class="block text-sm font-medium text-gray-700 mb-2" style="font-family: 'Google Sans', Roboto, sans-serif;">الحالة <span class="text-[#EA4335]">*</span></label>
+            <select id="status" name="status" 
+        class="w-full border border-[#DADCE0] rounded-xl shadow-sm focus:border-[#4285F4] focus:ring-2 focus:ring-[#4285F4]/20 py-3 pl-10 pr-4 transition-all duration-200 appearance-none bg-white 
+               bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNiIgdmlld0JveD0iMCAwIDEwIDYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTguNTg1NzkgMC4yOTI4OTNDOS4wNzY5MiAwLjc4NDAyMSA5LjA3NjkyIDEuNTgwNTUgOC41ODU3OSAyLjA3MTY4TDUuNDE0MjEgNC45Mjg5M0M1LjAyNzQ0IDUuMzE1NzEgNC4zOTQxMSA1LjMxNTcxIDQuMDA3MzMgNC45Mjg5M0wxLjQxNDIxIDIuMDcxNjhDMS4wMjMwOSAxLjU4MDU1IDEuMDIzMDkgMC43ODQwMjEgMS40MTQyMSAwLjI5Mjg5M0MyLjE5NjUxIC0wLjQ4OTQwOSAzLjQ2OTg1IC0wLjQ4OTQwOSA0LjI1MjE1IDAuMjkyODkzTDUgMS4wNDUwNEw1Ljc0Nzg1IDAuMjkyODkzQzYuNTMwMTUgLTAuNDg5NDA5IDcuODAzNDkgLTAuNDg5NDA5IDguNTg1NzkgMC4yOTI4OTNaIiBmaWxsPSIjNjE2MTYxIi8+PC9zdmc+')] 
+               bg-no-repeat bg-[left_1rem_center]">
+    <option value="active" @selected(old('status', $car->status) == 'active')>نشط</option>
+    <option value="inactive" @selected(old('status', $car->status) == 'inactive')>غير نشط</option>
+    <option value="pending" @selected(old('status', $car->status) == 'pending')>قيد المراجعة</option>
+    <option value="expired" @selected(old('status', $car->status) == 'expired')>منتهي</option>
+</select>
+
         </div>
     </div>
 
     {{-- الوصف --}}
     <div>
-        <label for="description" class="block text-sm font-medium text-gray-700 mb-2">الوصف</label>
-        <textarea id="description" name="description" rows="5" class="w-full border-gray-300 rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent/50">{{ old('description', $car->description) }}</textarea>
+        <label for="description" class="block text-sm font-medium text-gray-700 mb-2" style="font-family: 'Google Sans', Roboto, sans-serif;">الوصف</label>
+        <textarea id="description" name="description" rows="5" class="w-full border border-[#DADCE0] rounded-xl shadow-sm focus:border-[#4285F4] focus:ring-2 focus:ring-[#4285F4]/20 py-3 px-4 transition-all duration-200">{{ old('description', $car->description) }}</textarea>
     </div>
 
-    <hr>
+    <div class="border-t border-gray-200 my-8"></div>
 
     {{-- قسم التصنيفات --}}
     <div>
-        <h2 class="text-xl font-semibold mb-4 text-primary">التصنيفات</h2>
+        <h2 class="text-2xl font-bold mb-6 text-gray-800" style="font-family: 'Google Sans', Roboto, sans-serif;">التصنيفات</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             @foreach($categories as $category)
-                <div>
-                    <label for="category_{{ $category->id }}" class="block text-sm font-medium text-gray-700 mb-2">{{ $category->name }}</label>
-                    <select name="categories[{{ $category->id }}]" id="category_{{ $category->id }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-accent focus:ring focus:ring-accent/50">
-                        <option value="" class="text-black">-- اختر --</option style="color:black;">
-                    
-                                @foreach($category->categoryValues as $value)
-                                    @php
-                                        $selectedValue = $car->categoryValues->where('category_id', $category->id)->first()->id ?? null;
-                                    @endphp
-                                    <option value="{{ $value->id }}" @selected(old('categories.'.$category->id, $selectedValue) == $value->id)>{{ $value->value }}</option>
-                        @endforeach
-                    </select>
-
+                <div class="bg-gray-50 p-5 rounded-xl border border-gray-100">
+                    <label for="category_{{ $category->id }}" class="block text-sm font-medium text-gray-700 mb-3" style="font-family: 'Google Sans', Roboto, sans-serif;">{{ $category->name }}</label>
+                   <select name="categories[{{ $category->id }}]" 
+        id="category_{{ $category->id }}" 
+        class="w-full border border-[#DADCE0] rounded-xl shadow-sm focus:border-[#4285F4] focus:ring-2 focus:ring-[#4285F4]/20 py-3 px-4 transition-all duration-200 appearance-none bg-white bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNiIgdmlld0JveD0iMCAwIDEwIDYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTguNTg1NzkgMC4yOTI4OTNDOS4wNzY5MiAwLjc4NDAyMSA5LjA3NjkyIDEuNTgwNTUgOC41ODU3OSAyLjA3MTY4TDUuNDE0MjEgNC45Mjg5M0M1LjAyNzQ0IDUuMzE1NzEgNC4zOTQxMSA1LjMxNTcxIDQuMDA3MzMgNC45Mjg5M0wxLjQxNDIxIDIuMDcxNjhDMS4wMjMwOSAxLjU4MDU1IDEuMDIzMDkgMC43ODQwMjEgMS40MTQyMSAwLjI5Mjg5M0MyLjE5NjUxIC0wLjQ4OTQwOSAzLjQ2OTg1IC0wLjQ4OTQwOSA0LjI1MjE1IDAuMjkyODkzTDUgMS4wNDUwNEw1Ljc0Nzg1IDAuMjkyODkzQzYuNTMwMTUgLTAuNDg5NDA5IDcuODAzNDkgLTAuNDg5NDA5IDguNTg1NzkgMC4yOTI4OTNaIiBmaWxsPSIjNjE2MTYxIi8+PC9zdmc+')] 
+        bg-no-repeat 
+        bg-[left_1rem_center]">
+    <option value="" class="text-black">-- اختر --</option>
+    @foreach($category->categoryValues as $value)
+        @php
+            $selectedValue = $car->categoryValues->where('category_id', $category->id)->first()->id ?? null;
+        @endphp
+        <option value="{{ $value->id }}" @selected(old('categories.'.$category->id, $selectedValue) == $value->id)>{{ $value->value }}</option>
+    @endforeach
+</select>
 
                 </div>
             @endforeach
         </div>
     </div>
 
-    <hr>
+    <div class="border-t border-gray-200 my-8"></div>
 
     {{-- قسم الصور --}}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         {{-- الصورة الأساسية --}}
-        <div>
-            <h3 class="text-lg font-semibold mb-2 text-primary">الصورة الأساسية</h3>
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-2">الصورة الحالية</label>
+        <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100">
+            <h3 class="text-xl font-bold mb-4 text-gray-800" style="font-family: 'Google Sans', Roboto, sans-serif;">الصورة الأساسية</h3>
+            <div class="mb-5">
+                <label class="block text-sm font-medium text-gray-700 mb-3" style="font-family: 'Google Sans', Roboto, sans-serif;">الصورة الحالية</label>
                 @if($car->main_image)
-                    <img src="{{ Storage::url($car->main_image) }}" alt="الصورة الأساسية" class="w-32 h-32 object-cover rounded-md shadow-sm border">
+                    <img src="{{ Storage::url($car->main_image) }}" alt="الصورة الأساسية" class="w-36 h-36 object-cover rounded-xl shadow-md border border-gray-200">
                 @else
-                    <p class="text-gray-500">لا توجد صورة أساسية.</p>
+                    <div class="w-36 h-36 bg-gray-100 rounded-xl flex items-center justify-center border-2 border-dashed border-gray-300">
+                        <span class="text-gray-400 text-sm">لا توجد صورة</span>
+                    </div>
                 @endif
             </div>
             <div>
-                <label for="main_image" class="block text-sm font-medium text-gray-700 mb-2">تغيير الصورة الأساسية (اختياري)</label>
-                <input type="file" id="main_image" name="main_image" class="w-full border p-2 rounded-md file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-accent file:text-white hover:file:bg-accent/80">
+                <label for="main_image" class="block text-sm font-medium text-gray-700 mb-2" style="font-family: 'Google Sans', Roboto, sans-serif;">تغيير الصورة الأساسية (اختياري)</label>
+                <input type="file" id="main_image" name="main_image" class="w-full border border-[#DADCE0] p-3 rounded-xl file:mr-4 file:py-2.5 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#4285F4] file:text-white hover:file:bg-[#3367d6] transition-all duration-200">
             </div>
         </div>
 
         {{-- الصور الإضافية --}}
-        <div>
-            <h3 class="text-lg font-semibold mb-2 text-primary">الصور الإضافية</h3>
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-2">الصور الحالية</label>
+        <div class="bg-green-50 p-6 rounded-2xl border border-green-100">
+            <h3 class="text-xl font-bold mb-4 text-gray-800" style="font-family: 'Google Sans', Roboto, sans-serif;">الصور الإضافية</h3>
+            <div class="mb-5">
+                <label class="block text-sm font-medium text-gray-700 mb-3" style="font-family: 'Google Sans', Roboto, sans-serif;">الصور الحالية</label>
                 @if($car->images->isNotEmpty())
                     <div class="flex flex-wrap gap-4">
                         @foreach($car->images as $image)
                             <div class="relative group">
-                                <img src="{{ Storage::url($image->image_path) }}" alt="صورة إضافية" class="w-24 h-24 object-cover rounded-md shadow-sm border">
-                                <button type="submit" form="delete-image-{{ $image->id }}" onclick="return confirm('هل أنت متأكد من رغبتك في حذف هذه الصورة؟');" class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity">&times;</button>
+                                <img src="{{ Storage::url($image->image_path) }}" alt="صورة إضافية" class="w-28 h-28 object-cover rounded-xl shadow-md border border-gray-200">
+                                <button type="submit" form="delete-image-{{ $image->id }}" onclick="return confirm('هل أنت متأكد من رغبتك في حذف هذه الصورة؟');" class="absolute -top-2 -right-2 bg-[#EA4335] text-white rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-md">&times;</button>
                             </div>
                         @endforeach
                     </div>
                 @else
-                    <p class="text-gray-500">لا توجد صور إضافية.</p>
+                    <div class="bg-white rounded-xl p-4 border border-dashed border-gray-300">
+                        <p class="text-gray-500 text-center">لا توجد صور إضافية</p>
+                    </div>
                 @endif
             </div>
-             <div>
-                <label for="images" class="block text-sm font-medium text-gray-700 mb-2">إضافة صور جديدة (اختياري)</label>
-                <input type="file" id="images" name="images[]" multiple class="w-full border p-2 rounded-md file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-accent file:text-white hover:file:bg-accent/80">
+            <div>
+                <label for="images" class="block text-sm font-medium text-gray-700 mb-2" style="font-family: 'Google Sans', Roboto, sans-serif;">إضافة صور جديدة (اختياري)</label>
+                <input type="file" id="images" name="images[]" multiple class="w-full border border-[#DADCE0] p-3 rounded-xl file:mr-4 file:py-2.5 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#34A853] file:text-white hover:file:bg-[#2c8e49] transition-all duration-200">
                 <div id="images_preview" class="flex flex-wrap gap-4 mt-4"></div>
             </div>
         </div>
     </div>
 
     {{-- زر التحديث --}}
-    <div class="mt-8 pt-6 border-t flex justify-end">
-        <button type="submit" class="bg-accent text-white px-8 py-3 rounded-md hover:bg-accent/80 transition-colors font-semibold">
+    <div class="mt-10 pt-8 border-t border-gray-200 flex justify-end">
+        <button type="submit" class="bg-[#4285F4] text-white px-8 py-3.5 rounded-full hover:bg-[#3367d6] transition-all duration-200 font-semibold shadow-md hover:shadow-lg flex items-center">
             <i class="fa fa-save mr-2"></i>
             تحديث الإعلان
         </button>
@@ -185,7 +183,7 @@ Code
                     reader.onload = function(e) {
                         const img = document.createElement('img');
                         img.src = e.target.result;
-                        img.className = 'w-24 h-24 object-cover rounded-lg border p-1';
+                        img.className = 'w-28 h-28 object-cover rounded-xl border-2 border-[#4285F4] p-1 shadow-md';
                         imagesPreviewContainer.appendChild(img);
                     };
                     reader.readAsDataURL(file);

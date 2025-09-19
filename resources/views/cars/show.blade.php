@@ -40,8 +40,8 @@
             <p>{!! nl2br(e($car->description)) !!}</p>
         </div>
 
+        @if($car->categoryValues->isNotEmpty())
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            @if($car->categoryValues->isNotEmpty())
             <div>
                 <h3 class="text-xl font-semibold text-primary mb-3">التفاصيل</h3>
                 <div class="bg-gray-50 p-4 rounded-lg">
@@ -53,19 +53,8 @@
                     @endforeach
                 </div>
             </div>
-            @endif
-
-            @if($car->tags->isNotEmpty())
-            <div>
-                <h3 class="text-xl font-semibold text-primary mb-3">الوسوم</h3>
-                <div class="flex flex-wrap gap-2">
-                    @foreach($car->tags as $tag)
-                        <a href="{{ route('cars.front.index', ['tag' => $tag->name]) }}" class="bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded-full hover:bg-gray-200">#{{ $tag->name }}</a>
-                    @endforeach
-                </div>
-            </div>
-            @endif
         </div>
+        @endif
     </div>
 </div>
 @endsection

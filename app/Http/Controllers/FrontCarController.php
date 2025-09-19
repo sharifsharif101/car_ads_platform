@@ -12,7 +12,7 @@ class FrontCarController extends Controller
     public function index(Request $request)
     {
         $query = Car::query()
-            ->with(['tags', 'categoryValues.category', 'images'])
+            ->with(['categoryValues.category', 'images'])
             ->where('status', 'active');
 
         // Text search (title or description) - يعمل بشكل صحيح
@@ -29,13 +29,6 @@ class FrontCarController extends Controller
         }
         if ($max = $request->get('max_price')) {
             $query->where('price', '<=', (float)$max);
-        }
-
-        // Filter by a tag name - يعمل بشكل صحيح
-        if ($tag = trim((string) $request->get('tag'))) {
-            $query->whereHas('tags', function ($q) use ($tag) {
-                $q->where('name', $tag);
-            });
         }
 
         // ======================= الجزء الذي تم تعديله ======================= //
@@ -62,13 +55,11 @@ class FrontCarController extends Controller
 
         // Data for filter UI
         $categories = Category::with('values')->get();
-        $tags = Tag::orderBy('name')->get();
 
         // لا حاجة لإرجاع قيم الفلاتر القديمة category_id و value_id
         return view('cars.index', [
             'cars' => $cars,
             'categories' => $categories,
-            'tags' => $tags,
         ]);
     }
 
@@ -81,7 +72,7 @@ class FrontCarController extends Controller
         }
         
         // جلب كل العلاقات المطلوبة لعرضها في صفحة التفاصيل
-        $car->load(['tags', 'categoryValues.category', 'images']);
+        $car->load(['categoryValues.category', 'images']);
 
         return view('cars.show', [
             'car' => $car,

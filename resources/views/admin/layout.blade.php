@@ -2,6 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'لوحة التحكم')</title>
     
@@ -11,7 +13,7 @@
     {{-- External CSS --}}
     <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
+    @stack('styles')
     {{-- Alpine.js for interactivity --}}
     <script src="//unpkg.com/alpinejs" defer></script>
     
@@ -36,9 +38,6 @@
                 </a>
                 <a href="{{ route('admin.categories.index') }}" class="flex items-center py-2.5 px-4 rounded-lg transition-colors {{ request()->routeIs('admin.categories.*') ? 'bg-accent' : 'hover:bg-primary/80' }}">
                     <i class="fas fa-sitemap w-6 text-center ml-2"></i> التصنيفات
-                </a>
-                <a href="{{ route('admin.tags.index') }}" class="flex items-center py-2.5 px-4 rounded-lg transition-colors {{ request()->routeIs('admin.tags.*') ? 'bg-accent' : 'hover:bg-primary/80' }}">
-                    <i class="fas fa-tags w-6 text-center ml-2"></i> الوسوم
                 </a>
                 <a href="{{ route('cars.front.index') }}" target="_blank" class="flex items-center py-2.5 px-4 rounded-lg transition-colors hover:bg-primary/80">
                     <i class="fas fa-eye w-6 text-center ml-2"></i> عرض الموقع
@@ -70,7 +69,6 @@
                     <a href="{{ route('admin.dashboard') }}" class="py-2 px-4 rounded hover:bg-primary/80">لوحة التحكم</a>
                     <a href="{{ route('admin.cars.index') }}" class="py-2 px-4 rounded hover:bg-primary/80">الإعلانات</a>
                     <a href="{{ route('admin.categories.index') }}" class="py-2 px-4 rounded hover:bg-primary/80">التصنيفات</a>
-                    <a href="{{ route('admin.tags.index') }}" class="py-2 px-4 rounded hover:bg-primary/80">الوسوم</a>
                     <a href="{{ route('cars.front.index') }}" class="py-2 px-4 rounded hover:bg-primary/80">عرض السيارات</a>
                 </nav>
             </aside>
