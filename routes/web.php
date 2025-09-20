@@ -4,6 +4,9 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CarController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Models\Car;
+use App\Models\Category;
+use App\Models\User;
 use App\Http\Controllers\FrontCarController;
 
 // =======================================
@@ -43,8 +46,12 @@ require __DIR__.'/auth.php';
 
 Route::prefix('admin')->name('admin.')->group(function () {
     // لوحة تحكم المسؤول
-    Route::get('/', function () {
-        return view('admin.dashboard');
+    Route::get('/', function () { 
+        $carsCount = Car::count();
+        $usersCount = User::count();
+        $categoriesCount = Category::count();
+
+        return view('admin.dashboard', compact('carsCount', 'usersCount', 'categoriesCount'));
     })->name('dashboard');
 
     // إدارة الإعلانات (Cars)

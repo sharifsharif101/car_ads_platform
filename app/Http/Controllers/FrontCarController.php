@@ -13,7 +13,9 @@ class FrontCarController extends Controller
     {
         $query = Car::query()
             ->with(['categoryValues.category', 'images'])
-            ->where('status', 'active');
+            // تعديل: جلب الإعلانات النشطة وغير المتوفرة، واستبعاد المنتهية والتي قيد المراجعة
+            ->whereIn('status', ['active', 'inactive']);
+
 
         // Text search (title or description) - يعمل بشكل صحيح
         if ($search = trim((string) $request->get('q'))) {

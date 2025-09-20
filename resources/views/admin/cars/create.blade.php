@@ -184,6 +184,12 @@
                         <option value="inactive" @selected(old('status') == 'inactive')>غير نشط</option>
                         <option value="expired" @selected(old('status') == 'expired')>منتهي</option>
                     </select>
+                    <div class="mt-2 text-xs text-gray-500 space-y-1 pr-2">
+                        <p><strong>نشط:</strong> يظهر بشكل طبيعي للزوار. ✅</p>
+                        <p><strong>غير نشط:</strong> يظهر مع تنويه (غير متوفر). ✅</p>
+                        <p><strong>معلق:</strong> لا يظهر للزوار، للمراجعة فقط. ❌</p>
+                        <p><strong>منتهي:</strong> لا يظهر نهائيًا في الموقع. ❌</p>
+                    </div>
                 </div>
 
                 {{-- الوصف --}}

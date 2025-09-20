@@ -24,12 +24,17 @@ class AuthenticatedSessionController extends Controller
      */
 public function store(LoginRequest $request): RedirectResponse
 {
+    // التحقق من بيانات تسجيل الدخول
     $request->authenticate();
 
+    // تجديد جلسة المستخدم لأسباب أمنية
     $request->session()->regenerate();
 
+    // مسح أي URL محفوظ مسبقًا لتجنب التوجيه الغريب
+    $request->session()->forget('url.intended');
+
     // التوجيه مباشرة إلى صفحة السيارات بعد تسجيل الدخول
-    return redirect()->intended(route('cars.front.index'));
+    return redirect()->route('cars.front.index');
 }
 
     /**

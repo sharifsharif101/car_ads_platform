@@ -52,6 +52,12 @@
     <option value="pending" @selected(old('status', $car->status) == 'pending')>قيد المراجعة</option>
     <option value="expired" @selected(old('status', $car->status) == 'expired')>منتهي</option>
 </select>
+            <div class="mt-2 text-xs text-gray-500 space-y-1 pr-2">
+                <p><strong>نشط:</strong> يظهر بشكل طبيعي للزوار. ✅</p>
+                <p><strong>غير نشط:</strong> يظهر مع تنويه (غير متوفر). ✅</p>
+                <p><strong>قيد المراجعة:</strong> لا يظهر للزوار، للمراجعة فقط. ❌</p>
+                <p><strong>منتهي:</strong> لا يظهر نهائيًا في الموقع. ❌</p>
+            </div>
 
         </div>
     </div>
