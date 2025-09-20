@@ -73,10 +73,10 @@
                                class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">
                                تسجيل الدخول
                             </a>
-                            <a href="{{ route('register') }}" 
+                            {{-- <a href="{{ route('register') }}" 
                                class="bg-primary text-white hover:bg-primary/80 px-4 py-2 rounded-md text-sm font-medium transition duration-300">
                                إنشاء حساب
-                            </a>
+                            </a> --}}
                         @endauth
 
                     </div>

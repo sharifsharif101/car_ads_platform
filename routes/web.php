@@ -11,12 +11,11 @@ use App\Http\Controllers\FrontCarController;
 // =======================================
 
 // الصفحة الرئيسية
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [FrontCarController::class, 'index'])->name('cars.front.index');
+
 
 // عرض السيارات أمام المستخدمين
-Route::get('/cars', [FrontCarController::class, 'index'])->name('cars.front.index');
+ 
 Route::get('/cars/{car}', [FrontCarController::class, 'show'])->name('cars.front.show');
 
 // =======================================
@@ -60,3 +59,20 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
  
 });
+
+
+
+// كود اختبار الايميل
+// Route::get('/send-test-email', function () {
+//     try {
+//         Mail::raw('This is a test email from Laravel with Gmail SMTP.', function ($message) {
+//             $message->to('abd.sha.dev.1991@gmail.com') // أرسل لنفسك للتجربة
+//                     ->subject('Laravel Gmail Test');
+//         });
+
+//         return '✅ Email sent successfully!';
+//     } catch (\Exception $e) {
+//         return '❌ Error: ' . $e->getMessage();
+//     }
+// });
+// http://localhost:8000/send-test-email
