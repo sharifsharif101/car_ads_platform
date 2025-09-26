@@ -24,35 +24,22 @@
             @enderror
         </div>
 
-        <!-- نوع التصنيف -->
-        <div class="mb-6">
-            <label for="type" class="block text-gray-700 text-sm font-bold mb-2">نوع الحقل:</label>
-            <select id="type" name="type" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('type') border-red-500 @enderror" required>
-                <option value="select" {{ old('type', $category->type) == 'select' ? 'selected' : '' }}>Select (قائمة منسدلة)</option>
-                <option value="text" {{ old('type', $category->type) == 'text' ? 'selected' : '' }}>Text (حقل نصي)</option>
-                <option value="number" {{ old('type', $category->type) == 'number' ? 'selected' : '' }}>Number (حقل رقمي)</option>
-            </select>
-            @error('type')
-                <p class="text-red-500 text-xs italic mt-2">{{ $message }}</p>
-            @enderror
-        </div>
-
+        <!-- تم حذف حقل اختيار النوع -->
+        
         <!-- حاوية قيم التصنيف (تظهر عند اختيار select) -->
-        <div id="values-container" class="mb-6 border p-4 rounded-md {{ old('type', $category->type) == 'select' ? '' : 'hidden' }}">
+        <div id="values-container" class="mb-6 border p-4 rounded-md">
             <div class="flex justify-between items-center mb-4">
                  <h3 class="text-lg font-semibold">قيم التصنيف</h3>
                  <button type="button" id="add-value-btn" class="bg-blue-500 text-white py-1 px-3 rounded-lg hover:bg-blue-600 text-sm">إضافة قيمة</button>
             </div>
             <div id="values-inputs">
                 <!-- عرض القيم الحالية للتصنيف -->
-                @if($category->type == 'select')
-                    @foreach ($category->values as $value)
-                         <div class="flex items-center mb-2 value-input-group">
-                            <input type="text" name="values[]" value="{{ $value->value }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mr-2 leading-tight focus:outline-none focus:shadow-outline" placeholder="أدخل القيمة" required>
-                            <button type="button" class="remove-value-btn bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center">&times;</button>
-                        </div>
-                    @endforeach
-                @endif
+                @foreach ($category->values as $value)
+                     <div class="flex items-center mb-2 value-input-group">
+                        <input type="text" name="values[]" value="{{ $value->value }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mr-2 leading-tight focus:outline-none focus:shadow-outline" placeholder="أدخل القيمة" required>
+                        <button type="button" class="remove-value-btn bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center">&times;</button>
+                    </div>
+                @endforeach
             </div>
              @error('values.*')
                 <p class="text-red-500 text-xs italic mt-2">{{ $message }}</p>
@@ -71,21 +58,8 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const typeSelect = document.getElementById('type');
-    const valuesContainer = document.getElementById('values-container');
     const addValueBtn = document.getElementById('add-value-btn');
     const valuesInputs = document.getElementById('values-inputs');
-
-    // إظهار/إخفاء حقل القيم بناءً على نوع التصنيف
-    typeSelect.addEventListener('change', function () {
-        if (this.value === 'select') {
-            valuesContainer.classList.remove('hidden');
-        } else {
-            valuesContainer.classList.add('hidden');
-            // إفراغ القيم عند تغيير النوع إلى غير select
-            valuesInputs.innerHTML = '';
-        }
-    });
 
     // إضافة حقل إدخال جديد
     addValueBtn.addEventListener('click', function () {

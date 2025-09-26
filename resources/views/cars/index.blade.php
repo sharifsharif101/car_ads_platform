@@ -171,13 +171,23 @@
     <!-- Car Listings Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
         @forelse($cars as $car)
-            <a href="{{ $car->status === 'active' ? route('cars.front.show', $car) : '#' }}" class="group block microsoft-container overflow-hidden">
+            <a href="{{ $car->status === 'active' ? route('cars.front.show', $car) : '#' }}" class="group block microsoft-container overflow-hidden car-card">
                 <!-- Mobile Layout -->
                 <div class="md:hidden flex items-center p-3 space-x-3">
                     <div class="flex-1 min-w-0">
                         <h3 class="text-base font-semibold text-gray-900 mb-1 truncate">{{ $car->title }}</h3>
                         <div class="price-text mb-1">{{ number_format($car->price, 0) }} ريال</div>
                         <p class="text-xs text-gray-600 line-clamp-2">{{ Str::limit($car->description, 60) }}</p>
+                        {{-- إضافة التصنيفات في عرض الجوال --}}
+                        @if($car->categoryValues->isNotEmpty())
+                            <div class="mt-2 flex flex-wrap gap-1">
+                                @foreach($car->categoryValues->take(2) as $val) {{-- عرض أول تصنيفين فقط لتوفير المساحة --}}
+                                    <span class="category-tag px-1.5 py-0.5 rounded text-[10px]">
+                                        {{ $val->value }}
+                                    </span>
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
                     <div class="relative w-20 h-20 bg-white rounded-lg overflow-hidden flex-shrink-0 border">
                         @if($car->main_image)
@@ -226,10 +236,10 @@
                         <div class="price-text mb-2">{{ number_format($car->price, 0) }} ريال</div>
 
                         @if($car->categoryValues->isNotEmpty())
-                            <div class="text-xs text-gray-600 mt-auto space-y-1">
+                            <div class="text-xs text-gray-600 mt-2 flex flex-wrap gap-1">
                                 @foreach($car->categoryValues as $val)
-                                    <span class="inline-block mr-1 category-tag px-2 py-1 rounded text-xs">
-                                        {{ $val->category?->name }}: {{ $val->value }}
+                                    <span class="category-tag px-2 py-1 rounded text-xs">
+                                        {{ $val->value }}
                                     </span>
                                 @endforeach
                             </div>
@@ -251,3 +261,17 @@
 
 </div>
 @endsection
+
+@push('scripts')
+<script src="https://unpkg.com/scrollreveal"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    ScrollReveal().reveal('.car-card', {
+      duration: 800,       // مدة الانيميشن (ms)
+      distance: '50px',    // المسافة اللي يتحرك منها العنصر
+      origin: 'bottom',    // من أين يبدأ (bottom, top, left, right)
+      easing: 'ease-in-out',
+      interval: 100        // يخلي العناصر تظهر وحدة وراء الثانية
+    });
+  });
+</script>

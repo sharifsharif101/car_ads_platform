@@ -36,22 +36,20 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255|unique:categories,name',
-            'type' => 'required|in:select,text,number',
-            'values' => 'nullable|array', // القيم يجب أن تكون مصفوفة
+            'values' => 'required|array|min:1', // القيم الآن مطلوبة ويجب أن تحتوي على عنصر واحد على الأقل
             'values.*' => 'required|string|max:255', // كل قيمة داخل المصفوفة يجب أن تكون نص
         ]);
 
         DB::transaction(function () use ($request) {
             $category = Category::create([
                 'name' => $request->name,
-                'slug' => Str::slug($request->name),
-                'type' => $request->type,
+                'slug' => Str::slug($request->name)
+                // 'type' => 'select', // لم نعد بحاجة لحفظ النوع، أو يمكننا تثبيته
             ]);
 
-            if ($request->type === 'select' && $request->has('values')) {
-                foreach ($request->values as $value) {
-                    $category->values()->create(['value' => $value]);
-                }
+            // بما أن كل التصنيفات لها قيم، لم نعد بحاجة للتحقق من النوع
+            foreach ($request->values as $value) {
+                $category->values()->create(['value' => $value]);
             }
         });
 
@@ -74,24 +72,20 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255', Rule::unique('categories')->ignore($category->id)],
-            'type' => 'required|in:select,text,number',
-            'values' => 'nullable|array',
+            'values' => 'required|array|min:1',
             'values.*' => 'required|string|max:255',
         ]);
 
         DB::transaction(function () use ($request, $category) {
             $category->update([
                 'name' => $request->name,
-                'slug' => Str::slug($request->name),
-                'type' => $request->type,
+                'slug' => Str::slug($request->name)
             ]);
 
-            // حذف القيم القديمة وإضافة الجديدة إذا كان النوع select
+            // حذف القيم القديمة وإضافة الجديدة دائمًا
             $category->values()->delete();
-            if ($request->type === 'select' && $request->has('values')) {
-                foreach ($request->values as $value) {
-                    $category->values()->create(['value' => $value]);
-                }
+            foreach ($request->values as $value) {
+                $category->values()->create(['value' => $value]);
             }
         });
 
@@ -103,7 +97,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        // بفضل onDelete('cascade') في المايجريشن، سيتم حذف كل القيم تلقائيًا
+        // يفضل استخدام transaction هنا لضمان حذف التصنيف وقيمه معًا
+        // على الرغم من أن onDelete('cascade') يقوم بذلك على مستوى قاعدة البيانات
+        // إلا أن هذا يوفر طبقة أمان إضافية على مستوى التطبيق.
         $category->delete();
         return redirect()->route('admin.categories.index')->with('success', 'تم حذف التصنيف بنجاح.');
     }

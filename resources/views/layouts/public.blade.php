@@ -38,7 +38,7 @@
     </a>
 </div>
                 {{-- الروابط في الناف بار --}}
-                <div class="hidden md:block">
+               <div class="block">
                     <div class="ml-10 flex items-baseline space-x-4">
                         {{-- يمكنك إضافة روابط أخرى هنا إذا أردت مستقبلاً --}}
 

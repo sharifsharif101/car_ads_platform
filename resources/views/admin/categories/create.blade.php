@@ -29,26 +29,10 @@
                 @enderror
             </div>
 
-            <!-- نوع التصنيف -->
-            <div class="mb-6">
-                <label for="type" class="block text-gray-700 text-sm font-medium mb-2">نوع الحقل</label>
-                <select 
-                    id="type" 
-                    name="type" 
-                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-accent focus:border-accent appearance-none bg-no-repeat bg-[left_0.75rem_center] bg-[length:1.5em_1.5em] bg-[url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 viewBox=%270 0 20 20%27%3e%3cpath stroke=%27%236b7280%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%271.5%27 d=%27M6 8l4 4 4-4%27/%3e%3c/svg%3e')] @error('type') border-red-500 @enderror"
-                    required
-                >
-                    <option value="select" {{ old('type') == 'select' ? 'selected' : '' }}>Select (قائمة منسدلة)</option>
-                    <option value="text" {{ old('type') == 'text' ? 'selected' : '' }}>Text (حقل نصي)</option>
-                    <option value="number" {{ old('type') == 'number' ? 'selected' : '' }}>Number (حقل رقمي)</option>
-                </select>
-                @error('type')
-                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                @enderror
-            </div>
+            <!-- تم حذف حقل اختيار النوع -->
 
             <!-- حاوية قيم التصنيف (تظهر عند اختيار select) -->
-            <div id="values-container" class="mb-6 border border-gray-200 p-4 rounded-lg {{ old('type', 'select') == 'select' ? '' : 'hidden' }}">
+            <div id="values-container" class="mb-6 border border-gray-200 p-4 rounded-lg">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-lg font-medium text-gray-800">قيم التصنيف</h3>
                     <button type="button" id="add-value-btn" class="bg-accent hover:bg-accent-dark text-black px-3 py-1.5 rounded shadow hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5 text-sm">
@@ -94,19 +78,8 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const typeSelect = document.getElementById('type');
-    const valuesContainer = document.getElementById('values-container');
     const addValueBtn = document.getElementById('add-value-btn');
     const valuesInputs = document.getElementById('values-inputs');
-
-    // إظهار/إخفاء حقل القيم بناءً على نوع التصنيف
-    typeSelect.addEventListener('change', function () {
-        if (this.value === 'select') {
-            valuesContainer.classList.remove('hidden');
-        } else {
-            valuesContainer.classList.add('hidden');
-        }
-    });
 
     // إضافة حقل إدخال جديد
     addValueBtn.addEventListener('click', function () {

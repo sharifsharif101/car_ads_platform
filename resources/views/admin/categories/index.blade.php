@@ -42,7 +42,6 @@
                     <tr>
                         <th class="py-3 px-4 text-right text-sm font-medium">#</th>
                         <th class="py-3 px-4 text-right text-sm font-medium">الاسم</th>
-                        <th class="py-3 px-4 text-center text-sm font-medium">النوع</th>
                         <th class="py-3 px-4 text-center text-sm font-medium">عدد القيم</th>
                         <th class="py-3 px-4 text-center text-sm font-medium">إجراءات</th>
                     </tr>
@@ -52,17 +51,8 @@
                     <tr class="hover:bg-gray-50 transition-colors duration-200">
                         <td class="py-3 px-4 text-sm font-medium">{{ $category->id }}</td>
                         <td class="py-3 px-4 text-sm font-medium">{{ $category->name }}</td>
-                        <td class="py-3 px-4 text-center">
-                            <span class="bg-indigo-100 text-indigo-700 py-1 px-3 rounded-full text-xs font-medium">
-                                {{ $category->type }}
-                            </span>
-                        </td>
                         <td class="py-3 px-4 text-center text-sm">
-                            @if($category->type == 'select')
-                                <span class="font-semibold">{{ $category->values->count() }}</span>
-                            @else
-                                <span class="text-gray-400 text-sm">لا يوجد</span>
-                            @endif
+                            <span class="font-semibold">{{ $category->values->count() }}</span>
                         </td>
                         <td class="py-3 px-4 text-sm space-x-2 flex justify-center gap-2">
                             <a href="{{ route('admin.categories.edit', $category->id) }}" 
@@ -82,7 +72,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="py-6 px-6 text-center text-gray-500">
+                        <td colspan="4" class="py-6 px-6 text-center text-gray-500">
                             لا توجد تصنيفات لعرضها.
                         </td>
                     </tr>
