@@ -8,6 +8,11 @@
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
+    {{-- إضافة خطوط جوجل الجديدة --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
     <script src="//unpkg.com/alpinejs" defer></script>
@@ -26,7 +31,8 @@
         /* تحديث أنماط الجسم */
         body {
             background-color: #f3f4f6;
-            font-family: 'Tajawal', sans-serif;
+            /* لم نعد بحاجة لهذا التعريف إذا تم تحديث tailwind.config.js */
+            /* font-family: 'Almarai', 'Cairo', sans-serif; */
         }
         
         /* تحديث أنماط القائمة الجانبية */
@@ -193,33 +199,51 @@
         </aside>
 
         <!-- Mobile Sidebar (منزلق) -->
-        <div x-show="sidebarOpen" class="md:hidden" style="display: none;">
-            <!-- Overlay خلفية -->
-            <div @click="sidebarOpen = false" x-transition:enter="transition-opacity ease-in-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-in-out duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-black/60 z-30"></div>
+   <!-- Mobile Sidebar (منزلق) -->
+<div x-show="sidebarOpen" class="md:hidden" style="display: none;">
+    <!-- Overlay خلفية -->
+    <div @click="sidebarOpen = false"
+         x-transition:enter="transition-opacity ease-in-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition-opacity ease-in-out duration-300"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 bg-black/60 z-30"></div>
 
-            <!-- القائمة الجانبية الفعلية -->
-            <aside x-show="sidebarOpen" 
-                   x-transition:enter="transition ease-in-out duration-300 transform"
-                   x-transition:enter-start="translate-x-full"
-                   x-transition:enter-end="translate-x-0"
-                   x-transition:leave="transition ease-in-out duration-300 transform"
-                   x-transition:leave-start="translate-x-0"
-                   x-transition:leave-end="translate-x-full"
-                   class="fixed inset-y-0 right-0 w-64 bg-primary text-white z-40 p-6 flex flex-col shadow-2xl">
-                
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-bold">القائمة</h2>
-                    <button @click="sidebarOpen = false" class="text-2xl">&times;</button>
-                </div>
-                
-                <nav class="flex-1 flex flex-col gap-3">
-                    <a href="{{ route('admin.dashboard') }}" class="py-2 px-4 rounded hover:bg-white/10 transition-all">لوحة التحكم</a>
-                    <a href="{{ route('admin.cars.index') }}" class="py-2 px-4 rounded hover:bg-white/10 transition-all">الإعلانات</a>
-                    <a href="{{ route('admin.categories.index') }}" class="py-2 px-4 rounded hover:bg-white/10 transition-all">التصنيفات</a>
-                    <a href="{{ route('cars.front.index') }}" class="py-2 px-4 rounded hover:bg-white/10 transition-all">عرض السيارات</a>
-                </nav>
-            </aside>
+    <!-- القائمة الجانبية الفعلية -->
+    <aside x-show="sidebarOpen"
+           x-transition:enter="transition ease-in-out duration-300 transform"
+           x-transition:enter-start="translate-x-full"
+           x-transition:enter-end="translate-x-0"
+           x-transition:leave="transition ease-in-out duration-300 transform"
+           x-transition:leave-start="translate-x-0"
+           x-transition:leave-end="translate-x-full"
+           class="fixed inset-y-0 right-0 w-64 bg-primary text-white z-40 p-6 flex flex-col shadow-2xl">
+
+        <!-- رأس القائمة -->
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold">القائمة</h2>
+            <button @click="sidebarOpen = false" class="text-2xl">&times;</button>
         </div>
+
+        <!-- الروابط -->
+        <nav class="flex-1 flex flex-col gap-3">
+            <a href="{{ route('admin.dashboard') }}" class="py-2 px-4 rounded hover:bg-white/10 transition-all flex items-center">
+                <i class="fas fa-tachometer-alt w-6 text-center ml-2"></i> لوحة التحكم
+            </a>
+            <a href="{{ route('admin.cars.index') }}" class="py-2 px-4 rounded hover:bg-white/10 transition-all flex items-center">
+                <i class="fas fa-car w-6 text-center ml-2"></i> الإعلانات
+            </a>
+            <a href="{{ route('admin.categories.index') }}" class="py-2 px-4 rounded hover:bg-white/10 transition-all flex items-center">
+                <i class="fas fa-sitemap w-6 text-center ml-2"></i> التصنيفات
+            </a>
+            <a href="{{ route('cars.front.index') }}" class="py-2 px-4 rounded hover:bg-white/10 transition-all flex items-center">
+                <i class="fas fa-eye w-6 text-center ml-2"></i> عرض السيارات
+            </a>
+        </nav>
+    </aside>
+</div>
 
         <!-- المحتوى الرئيسي -->
         <div class="flex-1 flex flex-col">

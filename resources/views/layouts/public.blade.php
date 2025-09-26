@@ -12,6 +12,12 @@
     {{-- سيتم استخدام العنوان من الصفحات التي سترث هذا التصميم --}}
     <title>@yield('title', 'سيارات ابو خالد')</title>
 
+    {{-- إضافة خطوط جوجل الجديدة --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+
+
     {{-- لإضافة Tailwind CSS أو أي ملفات CSS أخرى تحتاجها في الواجهة الأمامية --}}
     {{--  تأكد من أن هذا المسار صحيح لمشروعك --}}
     @vite('resources/css/app.css') 

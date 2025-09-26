@@ -35,7 +35,8 @@
         </a>
     </div>
 
-    <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+    <!-- Desktop/Tablet: Table View -->
+    <div class="hidden md:block bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-secondary text-black">
@@ -90,7 +91,7 @@
                         </td>
                         <td class="py-3 px-4">
                             @if($car->main_image)
-                                <img src="{{ Storage::url($car->main_image) }}" 
+                                 <img src="{{ asset('uploads/' . $car->main_image) }}"
                                      alt="{{ $car->title }}" 
                                      class="w-16 h-12 object-cover rounded shadow-sm">
                             @else
@@ -103,6 +104,66 @@
             </table>
         </div>
     </div>
+
+    <!-- Mobile: Cards View -->
+ 
+<!-- Mobile & Tablet: WhatsApp-Style Cards -->
+<div class="md:hidden space-y-2 pb-4">
+    @foreach($cars as $car)
+    <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-100 overflow-hidden">
+        <div class="flex items-center justify-between p-4 gap-4">
+            
+            <!-- Avatar / Image Circle -->
+            <div class="shrink-0">
+                @if($car->main_image)
+                      <img src="{{ asset('uploads/' . $car->main_image) }}"
+                         alt="{{ $car->title }}" 
+                         class="w-16 h-16 rounded-full object-cover border border-gray-200 shadow-sm">
+                @else
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center border border-gray-200">
+                        <span class="text-gray-500 font-bold text-xl">🚗</span>
+                    </div>
+                @endif
+            </div>
+
+            <!-- Name & Description -->
+            <div class="flex-1 min-w-0">
+                <h3 class="font-semibold text-gray-800 text-base leading-snug truncate">
+                    {{ $car->title }}
+                </h3>
+                <p class="text-sm text-gray-600 mt-1 truncate">
+                    {{ number_format($car->price) }} ريال    
+                </p>
+
+                <!-- Status Badge -->
+                <span class="inline-block mt-2 px-3 py-1 rounded-full text-xs font-medium {{ $statusClasses[$car->status] ?? 'bg-gray-100 text-gray-800' }}">
+                    {{ $statusTranslations[$car->status] ?? $car->status }}
+                </span>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="shrink-0 flex flex-col gap-2">
+                <a href="{{ route('admin.cars.edit', $car) }}" 
+                   class="w-10 h-10 flex items-center justify-center bg-accent hover:bg-accent-dark text-black rounded-lg shadow-sm hover:shadow transition-all duration-200"
+                   title="تعديل">
+                    ✏️
+                </a>
+                <form action="{{ route('admin.cars.destroy', $car) }}" method="POST" class="inline-block"
+                      onsubmit="return confirm('هل أنت متأكد من رغبتك في الحذف؟');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" 
+                            class="w-10 h-10 flex items-center justify-center bg-red-500 hover:bg-red-600 text-black rounded-lg shadow-sm hover:shadow transition-all duration-200"
+                            title="حذف">
+                        🗑️
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    @endforeach
+</div>
+
 
     <div class="mt-8">
         {{ $cars->links() }}
